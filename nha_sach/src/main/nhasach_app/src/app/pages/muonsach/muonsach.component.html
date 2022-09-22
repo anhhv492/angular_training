@@ -1,0 +1,137 @@
+<div class="row d-flex justify-content-center align-items-center">
+    <button [ngModel]="checkHidden==!checkHidden">Show</button>
+<div hidden="checkHidden">
+    <h1 class="text-center">{{checkSubmit?title.update:title.insert}}</h1>
+    <form [formGroup]="formGroup" class="row" (ngSubmit)="doSubmit()">
+        <div class="col-12 row">
+            <div class="col-6">
+                <label for="banDoc" class="form-label">Bạn đọc</label>
+                <select class="form-select" id="banDoc" formControlName="banDoc">
+                    <option *ngFor="let banDoc of banDocList" [value]="banDoc.id">
+                        {{banDoc.ten}}
+                    </option>
+                </select>
+                <span class="text-error" *ngIf="formGroup.controls['banDoc'].hasError('required')
+                  && formGroup.controls['banDoc'].touched">
+                      Vui lòng chọn Bạn đọc
+                </span>
+            </div>
+            <div class="col-6">
+                <label for="sach" class="form-label">Tên sách</label>
+                <select class="form-select" id="sach" formControlName="sach">
+                    <option *ngFor="let sach of sachList" [value]="sach.id">
+                        {{sach.ten}}
+                    </option>
+                </select>
+                <span class="text-error" *ngIf="formGroup.controls['sach'].hasError('required')
+                  && formGroup.controls['sach'].touched">
+                      Vui lòng chọn Sách
+                </span>
+            </div>
+        </div>
+        <div class="col-12 row">
+            <div class="col-6">
+                <label for="ngayMuon" class="form-label">Ngày mượn</label>
+                <input type="date" class="form-control" id="ngayMuon"
+                       formControlName="ngayMuon">
+                <span class="text-error" *ngIf="formGroup.controls['ngayMuon'].hasError('required')
+                  && formGroup.controls['ngayMuon'].touched">
+                      Vui lòng nhập Ngày mượn
+                </span>
+            </div>
+            <div class="col-6">
+                <label for="ngayTra" class="form-label">Ngày trả</label>
+                <input type="date" class="form-control" id="ngayTra"
+                       formControlName="ngayTra">
+                <span class="text-error" *ngIf="formGroup.controls['ngayTra'].hasError('required')
+                  && formGroup.controls['ngayTra'].touched">
+                      Vui lòng nhập Ngày trả
+                </span>
+            </div>
+        </div>
+        <div class="col-12 row">
+            <div class="col-6">
+                <label for="soLuong" class="form-label">Số lượng mượn</label>
+                <input type="text" class="form-control" id="soLuong"
+                       formControlName="soLuong">
+                <span class="text-error" *ngIf="formGroup.controls['soLuong'].hasError('required')
+                  && formGroup.controls['soLuong'].touched">
+                      Vui lòng nhập Số lượng
+                </span>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Trạng thái</label>
+                <div class="col-4 ms-2">
+                <input type="radio" name="checkTT" class="form-check-input"
+                       formControlName="trangThai" checked [value]="0">
+                    Đang mượn
+                </div>
+                <div class="col-4 ms-2">
+                    <input type="radio" name="checkTT" class="form-check-input"
+                           formControlName="trangThai" [value]="1">
+                    Đã trả
+                </div>
+                <span class="text-error" *ngIf="formGroup.controls['trangThai'].hasError('required')
+                  && formGroup.controls['trangThai'].touched">
+                      Vui lòng nhập Trạng thái
+                </span>
+            </div>
+        </div>
+        <div class="col-12">
+            <label for="ghiChu" class="form-label">Ghi chú</label>
+            <textarea class="form-control" id="ghiChu"
+                      formControlName="ghiChu"></textarea>
+            <span class="text-error" *ngIf="formGroup.controls['ghiChu'].hasError('required')
+                  && formGroup.controls['ghiChu'].touched">
+                      Vui lòng nhập Ghi chú
+                </span>
+        </div>
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-warning ms-2" *ngIf="checkSubmit" (click)="refresh()">Back</button>
+        </div>
+    </form>
+    <div class="col-12 mt-3">
+        Tìm kiếm:
+        <input type="number" class="form-control" [ngModel]="idMuonSach" (ngModelChange)="idMuonSach=$event">
+        <span *ngIf="idMuonSach>=0"><button (click)="edit(idMuonSach)" class="btn btn-success">Search: {{namems(idMuonSach)}}</button></span>
+    </div>
+</div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Tên bạn đọc</th>
+            <th>Tên sách</th>
+            <th>Ngày mượn</th>
+            <th>Ngày trả</th>
+            <th>Ghi chú</th>
+            <th>Số lượng</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let muonSach of muonSachList,index as idx">
+            <td>{{muonSach.id}}</td>
+            <td>{{muonSach.banDoc.ten}}</td>
+            <td>{{muonSach.sach.ten}}</td>
+            <td>{{muonSach.ngayMuon|date:'yyyy/MM/dd'}}</td>
+            <td>{{muonSach.ngayTra|date:'yyyy/MM/dd'}}</td>
+            <td>{{muonSach.ghiChu}}</td>
+            <td>{{muonSach.soLuong}}</td>
+            <td>{{muonSach.trangThai==0?'Đang mượn':'Đã trả'}}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary mg-r-2" type="button"
+                        title="Sửa" (click)="edit(muonSach.id)">
+                    <span class="fe fe-edit-2"></span>
+                </button>
+                <button class="btn btn-sm btn-outline-danger mg-l-2" type="button"
+                        title="Xóa" (click)="delete(muonSach.id)">
+                    <span class="fe fe-trash-2"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

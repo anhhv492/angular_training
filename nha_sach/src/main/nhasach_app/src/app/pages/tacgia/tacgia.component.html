@@ -1,0 +1,93 @@
+<div class="row d-flex justify-content-center align-items-center">
+    <h1 class="text-center">{{checkSubmit?title.update:title.insert}}</h1>
+    <form [formGroup]="formGroup" class="row" (ngSubmit)="doSubmit()">
+        <div class="col-12">
+            <label for="inputEmail4" class="form-label">Mã Tác Giả</label>
+            <input type="text" class="form-control" id="inputEmail4"
+                   formControlName="maTG">
+            <span class="text-error" *ngIf="formGroup.controls['maTG'].hasError('required')
+      && formGroup.controls['maTG'].touched">
+          Vui lòng nhập Mã Tác Giả
+      </span>
+        </div>
+        <div class="col-12">
+            <label for="inputPassword4" class="form-label">Tên</label>
+            <input type="text" class="form-control" id="inputPassword4"
+                   formControlName="ten">
+            <span class="text-error" *ngIf="formGroup.controls['ten'].hasError('required')
+      && formGroup.controls['ten'].touched">
+          Vui lòng nhập Tên Tác Giả
+      </span>
+        </div>
+        <div class="col-12">
+            <label for="sdt" class="form-label">Số điện thoại</label>
+            <input type="text" class="form-control" id="sdt"
+                   formControlName="sdt">
+            <span class="text-error" *ngIf="formGroup.controls['sdt'].hasError('required')
+                && formGroup.controls['sdt'].touched">
+                Vui lòng nhập Số Điện Thoại
+            </span>
+<!--            <span class="text-error" *ngIf="formGroup.controls['sdt'].hasError('minLength')-->
+<!--                && formGroup.controls['sdt'].touched" >-->
+<!--                Vui lòng nhập đúng định dạng SĐT-->
+<!--            </span>-->
+<!--            <span class="text-error" *ngIf="formGroup.controls['sdt'].hasError('maxLength')-->
+<!--                && formGroup.controls['sdt'].touched">-->
+<!--                Vui lòng nhập đúng định dạng SĐT-->
+<!--            </span>-->
+        </div>
+        <div class="col-12">
+            <label for="inputAddress2" class="form-label">Địa chỉ</label>
+            <input type="text" class="form-control" id="inputAddress2"
+                   formControlName="diaChi">
+            <span class="text-error" *ngIf="formGroup.controls['diaChi'].hasError('required')
+      && formGroup.controls['diaChi'].touched">
+          Vui lòng nhập Địa chỉ
+      </span>
+        </div>
+        <div class="col-12">
+            <label for="inputCity" class="form-label">Mô tả</label>
+            <input type="text" class="form-control" id="inputCity"
+                   formControlName="moTa">
+            <span class="text-error" *ngIf="formGroup.controls['moTa'].hasError('required')
+      && formGroup.controls['moTa'].touched">
+          Vui lòng nhập Mô tả
+      </span>
+        </div>
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-warning ms-2" *ngIf="checkSubmit" (click)="refresh()">Back</button>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Mã Tác Giả</th>
+            <th>Tên</th>
+            <th>SĐT</th>
+            <th>Địa chỉ</th>
+            <th>Mô tả</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let tg of tacGiaList,index as idx">
+            <td>{{tg.maTG}}</td>
+            <td>{{tg.ten}}</td>
+            <td>{{tg.sdt}}</td>
+            <td>{{tg.diaChi}}</td>
+            <td>{{tg.moTa}}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary mg-r-2" type="button"
+                        title="Sửa" (click)="edit(tg.id)">
+                    <span class="fe fe-edit-2"></span>
+                </button>
+                <button class="btn btn-sm btn-outline-danger mg-l-2" type="button"
+                        title="Xóa" (click)="delete(tg.id)">
+                    <span class="fe fe-trash-2"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

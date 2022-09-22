@@ -1,0 +1,148 @@
+<div class="row d-flex justify-content-center align-items-center">
+    <h1 class="text-center">{{checkSubmit?title.update:title.insert}}</h1>
+    <form [formGroup]="formGroup" class="row" (ngSubmit)="doSubmit()">
+        <div class="col-12 row">
+            <div class="col-6">
+                <label for="inputEmail4" class="form-label">Mã sách</label>
+                <input type="text" class="form-control" id="inputEmail4"
+                       formControlName="maSach">
+                <span class="text-error" *ngIf="formGroup.controls['maSach'].hasError('required')
+                  && formGroup.controls['maSach'].touched">
+                      Vui lòng nhập Mã sách
+                </span>
+            </div>
+            <div class="col-6">
+                <label for="ten" class="form-label">Tên sách</label>
+                <input type="text" class="form-control" id="ten"
+                       formControlName="ten">
+                <span class="text-error" *ngIf="formGroup.controls['ten'].hasError('required')
+                  && formGroup.controls['ten'].touched">
+                      Vui lòng nhập Tên
+                </span>
+            </div>
+        </div>
+        <div class="col-12 row">
+            <div class="col-6">
+                <label for="nhaXuatBan" class="form-label">Nhà xuất bản</label>
+                <select class="form-select" id="nhaXuatBan" formControlName="nhaXuatBan">
+                    <option [value]="nxb.id" *ngFor="let nxb of nxbList">
+                        {{nxb.ten}}
+                    </option>
+                </select>
+                <span class="text-error" *ngIf="formGroup.controls['nhaXuatBan'].hasError('required')
+                  && formGroup.controls['nhaXuatBan'].touched">
+                      Vui lòng chọn Nhà xuất bản
+                </span>
+            </div>
+            <div class="col-6">
+                <label for="tacGia" class="form-label">Tác giả</label>
+                <select class="form-select" id="tacGia" formControlName="tacGia">
+                    <option [value]="tacGia.id" *ngFor="let tacGia of tacGiaList">
+                        {{tacGia.ten}}
+                    </option>
+                </select>
+                <span class="text-error" *ngIf="formGroup.controls['tacGia'].hasError('required')
+                  && formGroup.controls['tacGia'].touched">
+                      Vui lòng chọn tác giả
+                </span>
+            </div>
+        </div>
+        <div class="col-12 row">
+            <div class="col-6">
+                <label for="chuDe" class="form-label">Chủ đề</label>
+                <input type="text" class="form-control" id="chuDe"
+                   formControlName="chuDe">
+                <span class="text-error" *ngIf="formGroup.controls['chuDe'].hasError('required')
+                  && formGroup.controls['chuDe'].touched">
+                      Vui lòng nhập Chủ đề
+                </span>
+            </div>
+            <div class="col-6">
+                <label for="namXuatBan" class="form-label">Nắm xuất bản</label>
+                <input type="date" class="form-control" id="namXuatBan"
+                   formControlName="namXuatBan">
+                <span class="text-error" *ngIf="formGroup.controls['namXuatBan'].hasError('required')
+                  && formGroup.controls['namXuatBan'].touched">
+                      Vui lòng nhập Năm xuất bản
+                </span>
+            </div>
+
+        </div>
+        <div class="col-12 row">
+            <div class="col-6">
+                <label for="soLuongDangMuon" class="form-label">Số sách đang mượn</label>
+                <input type="number" class="form-control" id="soLuongDangMuon"
+                       formControlName="soLuongDangMuon">
+                <span class="text-error" *ngIf="formGroup.controls['soLuongDangMuon'].hasError('required')
+                  && formGroup.controls['soLuongDangMuon'].touched">
+                      Vui lòng nhập Số lượng đang mượn
+                </span>
+            </div>
+
+            <div class="col-6">
+                <label for="tongSoSach" class="form-label">Tổng số sách</label>
+                <input type="number" class="form-control" id="tongSoSach"
+                       formControlName="tongSoSach">
+                <span class="text-error" *ngIf="formGroup.controls['tongSoSach'].hasError('required')
+                  && formGroup.controls['tongSoSach'].touched">
+                      Vui lòng nhập Tổng số sách
+                </span>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <label for="moTa" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="moTa"
+                      formControlName="moTa"></textarea>
+            <span class="text-error" *ngIf="formGroup.controls['moTa'].hasError('required')
+                  && formGroup.controls['moTa'].touched">
+                      Vui lòng nhập Mô tả
+            </span>
+        </div>
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-warning ms-2" *ngIf="checkSubmit" (click)="refresh()">Back</button>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Mã Sách</th>
+            <th>Tên sách</th>
+            <th>Chủ đề</th>
+            <th>Mô tả</th>
+            <th>Năm xuất bản</th>
+            <th>Số sách còn lại</th>
+            <th>Số sách đang mượn</th>
+            <th>Tổng sách</th>
+            <th>Nhà xuất bản</th>
+            <th>Tác giả</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let sach of sachList,index as idx">
+            <td>{{sach.maSach}}</td>
+            <td>{{sach.ten}}</td>
+            <td>{{sach.chuDe}}</td>
+            <td>{{sach.moTa}}</td>
+            <td>{{sach.namXuatBan|date:'yyyy/MM/dd'}}</td>
+            <td>{{sach.soLuongConLai}}</td>
+            <td>{{sach.soLuongDangMuon}}</td>
+            <td>{{sach.tongSoSach}}</td>
+            <td>{{sach.nhaXuatBan.ten}}</td>
+            <td>{{sach.tacGia.ten}}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary mg-r-2" type="button"
+                        title="Sửa" (click)="edit(sach.id)">
+                    <span class="fe fe-edit-2"></span>
+                </button>
+                <button class="btn btn-sm btn-outline-danger mg-l-2" type="button"
+                        title="Xóa" (click)="delete(sach.id)">
+                    <span class="fe fe-trash-2"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
